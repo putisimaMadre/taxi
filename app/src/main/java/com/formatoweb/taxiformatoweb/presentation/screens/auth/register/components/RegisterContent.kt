@@ -1,5 +1,6 @@
 package com.formatoweb.taxiformatoweb.presentation.screens.auth.register.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +26,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,35 +36,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.formatoweb.taxiformatoweb.R
 import com.formatoweb.taxiformatoweb.presentation.components.DefaultButton
 import com.formatoweb.taxiformatoweb.presentation.components.DefaultOutlinedTextField
+import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.RegisterViewModel
 
 @Composable
-fun RegisterComponent(navHostController: NavHostController, paddingValues: PaddingValues) {
-    var email by remember {
-        mutableStateOf(value = "")
-    }
-    var name by remember {
-        mutableStateOf(value = "")
-    }
-    var lastName by remember {
-        mutableStateOf(value = "")
-    }
-    var phone by remember {
-        mutableStateOf(value = "")
-    }
-    var password by remember {
-        mutableStateOf(value = "")
-    }
-    var confirmPassword by remember {
-        mutableStateOf(value = "")
+fun RegisterComponent(navHostController: NavHostController, paddingValues: PaddingValues, viewModel: RegisterViewModel = hiltViewModel()) {
+    val state = viewModel.state
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = viewModel.errorMessage) {
+        if (viewModel.errorMessage.isNotEmpty()){
+            Toast.makeText(context, viewModel.errorMessage, Toast.LENGTH_SHORT).show()
+        }
     }
 
     Box(modifier = Modifier
@@ -132,72 +127,72 @@ fun RegisterComponent(navHostController: NavHostController, paddingValues: Paddi
                 }
                 DefaultOutlinedTextField(
                     modifier = Modifier,
-                    value = name,
+                    value = state.name,
                     label = "Nombre",
                     icon = Icons.Outlined.Person,
-                    onValueChange = {
-                        name = it
+                    onValueChange = { text ->
+                        viewModel.onNameInput(text)
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 DefaultOutlinedTextField(
                     modifier = Modifier,
-                    value = lastName,
+                    value = state.lastName,
                     label = "Apellido",
                     icon = Icons.Outlined.Person,
                     onValueChange = {
-                        lastName = it
+                        viewModel.onLastnameInput(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 DefaultOutlinedTextField(
                     modifier = Modifier,
-                    value = email,
+                    value = state.email,
                     label = "E-mail",
                     icon = Icons.Outlined.Email,
                     keyboardType = KeyboardType.Email,
                     onValueChange = {
-                        email = it
+                        viewModel.onEmailInput(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 DefaultOutlinedTextField(
                     modifier = Modifier,
-                    value = phone,
+                    value = state.phone,
                     label = "Telefono",
                     icon = Icons.Outlined.Phone,
                     keyboardType = KeyboardType.Number,
                     onValueChange = {
-                        phone = it
+                        viewModel.onPhoneInput(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 DefaultOutlinedTextField(
                     modifier = Modifier,
-                    value = password,
+                    value = state.password,
                     label = "Contraseña",
                     icon = Icons.Outlined.Lock,
                     hideText = true,
                     onValueChange = {
-                        password = it
+                        viewModel.onPasswordInput(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 DefaultOutlinedTextField(
                     modifier = Modifier,
-                    value = confirmPassword,
+                    value = state.confirmPassword,
                     label = "Confirmar Contraseña",
                     icon = Icons.Outlined.Lock,
                     hideText = true,
                     onValueChange = {
-                        confirmPassword = it
+                        viewModel.onConfirmPasswordInput(it)
                     }
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 DefaultButton(
                     modifier = Modifier,
                     text = "Crear Usuario",
-                    onClick = {}
+                    onClick = {viewModel.register()}
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 Row (

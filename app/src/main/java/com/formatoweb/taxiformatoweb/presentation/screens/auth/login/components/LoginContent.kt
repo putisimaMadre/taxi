@@ -1,5 +1,9 @@
 package com.formatoweb.taxiformatoweb.presentation.screens.auth.login.components
 
+import android.R.attr.tag
+import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +29,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,18 +39,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.formatoweb.taxiformatoweb.R
+import com.formatoweb.taxiformatoweb.presentation.components.DefaultButton
 import com.formatoweb.taxiformatoweb.presentation.components.DefaultTextField
 import com.formatoweb.taxiformatoweb.presentation.navigation.graph.screen.auth.AuthScreen
+import com.formatoweb.taxiformatoweb.presentation.screens.auth.login.LoginViewModel
+
 
 @Composable
-fun LoginContent (navHostController: NavHostController, paddingValues: PaddingValues){
+fun LoginContent (navHostController: NavHostController, paddingValues: PaddingValues, viewModel: LoginViewModel = hiltViewModel()){
+
+    val state = viewModel.state
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = viewModel.errorMessage) {
+        if (viewModel.errorMessage.isNotEmpty()){
+            Toast.makeText(context, viewModel.errorMessage, Toast.LENGTH_LONG).show()
+        }
+    }
+
     var email by remember {
         mutableStateOf(value = "")
     }
@@ -131,38 +152,33 @@ fun LoginContent (navHostController: NavHostController, paddingValues: PaddingVa
                 Spacer(modifier = Modifier.height(50.dp))
                 DefaultTextField(
                     modifier = Modifier,
-                    value = email,
+                    value = state.email,
                     label = "E-mail",
                     icon = Icons.Outlined.Email,
-                    onValueChange = {
-                        email = it
+                    onValueChange = { it ->
+                        viewModel.onEmailInput(it)
                     },
                     keyboardType = KeyboardType.Email
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 DefaultTextField(
                     modifier = Modifier,
-                    value = password,
+                    value = state.password,
                     label = "Contraseña",
                     icon = Icons.Outlined.Lock,
-                    onValueChange = {
-                        password = it
+                    onValueChange = { it
+                        viewModel.onPasswordInput(it)
                     },
                     hideText = true
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .width(250.dp)
-                            .height(55.dp),
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(Color.Black)
-                    ) {
-                        Text("LOGIN", fontSize = 18.sp, color = Color.White)
+                DefaultButton(
+                    modifier = Modifier,
+                    text = "LOGIN",
+                    onClick = {
+                        viewModel.login()
                     }
-                }
+                )
                 Spacer(modifier = Modifier.height(25.dp))
                 Row (
                     modifier = Modifier.fillMaxWidth(),

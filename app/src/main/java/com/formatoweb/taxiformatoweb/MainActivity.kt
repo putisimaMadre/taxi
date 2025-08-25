@@ -17,7 +17,9 @@ import androidx.navigation.compose.rememberNavController
 import com.formatoweb.taxiformatoweb.presentation.navigation.graph.root.RootNavGraph
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.login.LoginScreen
 import com.formatoweb.taxiformatoweb.ui.theme.TaxiFormatowebTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navHostController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
