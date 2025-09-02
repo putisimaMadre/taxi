@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    //RETROFIT
+    implementation(libs.retrofit)
+    implementation(libs.squareup.converter.gson)
+
     //DAGGER HILT
     implementation(libs.hilt.android) //
     implementation(libs.androidx.hilt.navigation.compose) //navigation-compose
