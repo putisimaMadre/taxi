@@ -57,6 +57,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.squareup.converter.gson)
 
+    //MANEJADOR DE ERRORES
+    implementation(libs.moshi.kotlin)
+
     //DAGGER HILT
     implementation(libs.hilt.android) //
     implementation(libs.androidx.hilt.navigation.compose) //navigation-compose

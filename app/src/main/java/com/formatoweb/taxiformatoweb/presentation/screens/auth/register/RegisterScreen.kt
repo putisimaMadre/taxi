@@ -46,6 +46,8 @@ import androidx.navigation.compose.rememberNavController
 import com.formatoweb.taxiformatoweb.R
 import com.formatoweb.taxiformatoweb.presentation.components.DefaultButton
 import com.formatoweb.taxiformatoweb.presentation.components.DefaultOutlinedTextField
+import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.components.Register
+
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.components.RegisterComponent
 import com.formatoweb.taxiformatoweb.ui.theme.TaxiFormatowebTheme
 
@@ -55,6 +57,7 @@ fun RegisterScreen (navHostController: NavHostController){
     Scaffold { paddingValues ->
         RegisterComponent(navHostController = navHostController, paddingValues = paddingValues)
     }
+    Register()
 }
 
 @Preview(showBackground = true, showSystemUi = true)

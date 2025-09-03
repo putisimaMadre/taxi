@@ -1,30 +1,34 @@
 package com.formatoweb.taxiformatoweb.presentation.screens.auth.register
 
-import android.util.Log
 import android.util.Patterns
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.formatoweb.taxiformatoweb.domain.model.AuthResponse
+import com.formatoweb.taxiformatoweb.domain.useCases.auth.AuthUseCases
+import com.formatoweb.taxiformatoweb.domain.util.Resource
+import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.mapper.toUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(): ViewModel(){
+class RegisterViewModel @Inject constructor(private val authUseCases: AuthUseCases): ViewModel(){
     var state by mutableStateOf(RegisterState())
         private set
 
     var errorMessage by mutableStateOf("")
 
-    fun register(){
+    var registerResponse by mutableStateOf<Resource<AuthResponse>?>(null)
+        private set
+
+    fun register() = viewModelScope.launch{
         if (isValidForm()){
-            Log.d("RegisterViewModel", "Name: ${state.name}")
-            Log.d("RegisterViewModel", "Name: ${state.lastName}")
-            Log.d("RegisterViewModel", "Name: ${state.phone}")
-            Log.d("RegisterViewModel", "Name: ${state.email}")
-            Log.d("RegisterViewModel", "Name: ${state.password}")
-            Log.d("RegisterViewModel", "Name: ${state.confirmPassword}")
+            registerResponse = Resource.Loading
+            val result = authUseCases.register(state.toUser())
+            registerResponse = result //Success -Failure
         }
     }
 

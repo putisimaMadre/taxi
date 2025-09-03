@@ -1,23 +1,29 @@
 package com.formatoweb.taxiformatoweb.presentation.screens.auth.login
 
-import android.util.Log
 import android.util.Patterns
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.formatoweb.taxiformatoweb.domain.useCases.auth.AuthUseCase
+import com.formatoweb.taxiformatoweb.domain.model.AuthResponse
+import com.formatoweb.taxiformatoweb.domain.useCases.auth.AuthUseCases
+import com.formatoweb.taxiformatoweb.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): ViewModel() {
+class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases): ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
 
     var errorMessage by mutableStateOf("")
+
+    var loginResponse by mutableStateOf<Resource<AuthResponse>?>(null)
+        private set
+
+
     fun onEmailInput(email: String){
         state = state.copy(email = email)
     }
@@ -28,7 +34,9 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
 
     fun login() = viewModelScope.launch{
         if (isValidForm()){
-            val result = authUseCase.login(state.email, state.password)
+            loginResponse = Resource.Loading
+            val result = authUseCases.login(state.email, state.password)
+            loginResponse = result //Success - Failure
         }
     }
 
