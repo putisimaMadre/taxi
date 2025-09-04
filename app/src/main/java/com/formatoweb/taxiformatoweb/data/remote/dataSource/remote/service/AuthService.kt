@@ -1,4 +1,4 @@
-package com.formatoweb.taxiformatoweb.data.dataSource.remote.service
+package com.formatoweb.taxiformatoweb.data.remote.dataSource.remote.service
 
 import com.formatoweb.taxiformatoweb.domain.model.AuthResponse
 import com.formatoweb.taxiformatoweb.domain.model.LoginRequest

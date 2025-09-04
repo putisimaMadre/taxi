@@ -60,6 +60,9 @@ dependencies {
     //MANEJADOR DE ERRORES
     implementation(libs.moshi.kotlin)
 
+    //ALMACENAMIENTO LOCAL
+    implementation(libs.androidx.datastore.preferences)
+
     //DAGGER HILT
     implementation(libs.hilt.android) //
     implementation(libs.androidx.hilt.navigation.compose) //navigation-compose

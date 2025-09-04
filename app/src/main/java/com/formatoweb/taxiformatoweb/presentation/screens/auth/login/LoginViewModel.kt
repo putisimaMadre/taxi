@@ -1,5 +1,6 @@
 package com.formatoweb.taxiformatoweb.presentation.screens.auth.login
 
+import android.util.Log
 import android.util.Patterns
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,9 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
     var loginResponse by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
 
+    init {
+        getSessionData()
+    }
 
     fun onEmailInput(email: String){
         state = state.copy(email = email)
@@ -38,6 +42,16 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
             val result = authUseCases.login(state.email, state.password)
             loginResponse = result //Success - Failure
         }
+    }
+
+    fun getSessionData() = viewModelScope.launch {
+        authUseCases.getSessionData().collect { data ->
+            Log.d("LoginViewModel", "Datos de sesion: ${data}")
+        }
+    }
+
+    fun saveSession(authResponse: AuthResponse) = viewModelScope.launch {
+        authUseCases.saveSession(authResponse)
     }
 
     fun isValidForm(): Boolean{

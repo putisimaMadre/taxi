@@ -1,7 +1,8 @@
-package com.formatoweb.taxiformatoweb.data.repository
+package com.formatoweb.taxiformatoweb.data.remote.repository
 
 import android.util.Log
-import com.formatoweb.taxiformatoweb.data.dataSource.remote.service.AuthService
+import com.formatoweb.taxiformatoweb.data.local.datastore.LocalDataStore
+import com.formatoweb.taxiformatoweb.data.remote.dataSource.remote.service.AuthService
 import com.formatoweb.taxiformatoweb.domain.model.AuthResponse
 import com.formatoweb.taxiformatoweb.domain.model.ErrorResponse
 import com.formatoweb.taxiformatoweb.domain.model.LoginRequest
@@ -9,8 +10,9 @@ import com.formatoweb.taxiformatoweb.domain.model.User
 import com.formatoweb.taxiformatoweb.domain.repository.AuthRepository
 import com.formatoweb.taxiformatoweb.domain.util.ErrorHelper
 import com.formatoweb.taxiformatoweb.domain.util.Resource
+import kotlinx.coroutines.flow.Flow
 
-class AuthRespositoryImpl(private val authService: AuthService): AuthRepository {
+class AuthRespositoryImpl(private val authService: AuthService, private val localDataStore: LocalDataStore): AuthRepository {
     override suspend fun login(
         email: String,
         password: String
@@ -52,4 +54,14 @@ class AuthRespositoryImpl(private val authService: AuthService): AuthRepository 
             Resource.Failure(e.message ?: "Error desconocido")
         }
     }
+
+    override suspend fun saveSession(authResponse: AuthResponse) {
+        localDataStore.save(authResponse)
+    }
+
+    override suspend fun logout() {
+        localDataStore.delete()
+    }
+
+    override fun getSessionData(): Flow<AuthResponse> = localDataStore.getData()
 }

@@ -1,7 +1,7 @@
 package com.formatoweb.taxiformatoweb.di
 
 import com.formatoweb.taxiformatoweb.core.Config
-import com.formatoweb.taxiformatoweb.data.dataSource.remote.service.AuthService
+import com.formatoweb.taxiformatoweb.data.remote.dataSource.remote.service.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
