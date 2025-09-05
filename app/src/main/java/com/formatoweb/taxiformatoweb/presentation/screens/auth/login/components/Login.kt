@@ -26,7 +26,9 @@ fun Login(navHostController: NavHostController, viewModel: LoginViewModel = hilt
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 viewModel.saveSession(response.data)
-                navHostController.navigate(route = Graph.CLIENT)
+                navHostController.navigate(route = Graph.CLIENT){
+                    popUpTo (Graph.AUTH){ inclusive = true}
+                }
             }
         }
         is Resource.Failure -> {

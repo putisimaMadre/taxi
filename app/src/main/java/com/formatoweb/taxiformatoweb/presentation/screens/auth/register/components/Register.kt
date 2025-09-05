@@ -2,15 +2,18 @@ package com.formatoweb.taxiformatoweb.presentation.screens.auth.register.compone
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.formatoweb.taxiformatoweb.domain.util.Resource
 import com.formatoweb.taxiformatoweb.presentation.components.ProgressBar
+import com.formatoweb.taxiformatoweb.presentation.navigation.Graph
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.login.LoginViewModel
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.RegisterViewModel
 
 @Composable
-fun Register(viewModel: RegisterViewModel = hiltViewModel()) {
+fun Register(navHostController: NavHostController, viewModel: RegisterViewModel = hiltViewModel()) {
 
     var context = LocalContext.current
 
@@ -19,7 +22,12 @@ fun Register(viewModel: RegisterViewModel = hiltViewModel()) {
             ProgressBar()
         }
         is Resource.Success -> {
-            Toast.makeText(context, "Registro Exitoso", Toast.LENGTH_LONG).show()
+            LaunchedEffect(Unit) {
+                viewModel.saveSession(response.data)
+                navHostController.navigate(route = Graph.CLIENT){
+                    popUpTo (Graph.AUTH) {inclusive = true}
+                }
+            }
         }
         is Resource.Failure -> {
             Toast.makeText(context, response.message, Toast.LENGTH_LONG).show()

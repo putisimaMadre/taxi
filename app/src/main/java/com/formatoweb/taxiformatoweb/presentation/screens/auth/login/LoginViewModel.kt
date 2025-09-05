@@ -47,6 +47,9 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
     fun getSessionData() = viewModelScope.launch {
         authUseCases.getSessionData().collect { data ->
             Log.d("LoginViewModel", "Datos de sesion: ${data}")
+            if (!data.token.isNullOrBlank()){
+                loginResponse = Resource.Success(data)
+            }
         }
     }
 
