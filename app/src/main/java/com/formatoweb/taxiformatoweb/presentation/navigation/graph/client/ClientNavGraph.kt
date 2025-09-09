@@ -1,25 +1,23 @@
 package com.formatoweb.taxiformatoweb.presentation.navigation.graph.client
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import com.formatoweb.taxiformatoweb.presentation.navigation.Graph
-import com.formatoweb.taxiformatoweb.presentation.navigation.graph.screen.auth.AuthScreen
 import com.formatoweb.taxiformatoweb.presentation.navigation.screen.client.ClientScreen
-import com.formatoweb.taxiformatoweb.presentation.screens.auth.login.LoginScreen
-import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.RegisterScreen
-import com.formatoweb.taxiformatoweb.presentation.screens.client.home.ClientHomeScreen
+import com.formatoweb.taxiformatoweb.presentation.screens.client.mapSearcher.ClientMapSearcherScreen
+import com.formatoweb.taxiformatoweb.presentation.screens.profile.info.ProfileInfoScreen
 
-fun NavGraphBuilder.ClientNavGraph(navHostController: NavHostController) {
-    navigation(
+@Composable
+fun ClientNavGraph(navHostController: NavHostController) {
+    NavHost(
+        navController = navHostController,
         route = Graph.CLIENT,
-        startDestination = ClientScreen.Home.route
+        startDestination = ClientScreen.MapSearcher.route
     ){
-        composable (route = ClientScreen.Home.route){ClientHomeScreen(navHostController = navHostController)}
+        composable (route = ClientScreen.ProfileInfo.route){ ProfileInfoScreen(navHostController = navHostController)}
+        composable (route = ClientScreen.MapSearcher.route){ ClientMapSearcherScreen(navHostController = navHostController) }
     }
 }
 

@@ -10,6 +10,7 @@ import com.formatoweb.taxiformatoweb.presentation.navigation.graph.client.Client
 import com.formatoweb.taxiformatoweb.presentation.navigation.graph.screen.auth.AuthScreen
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.login.LoginScreen
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.RegisterScreen
+import com.formatoweb.taxiformatoweb.presentation.screens.client.home.ClientHomeScreen
 
 fun NavGraphBuilder.AuthNavGraph(navHostController: NavHostController) {
     navigation(
@@ -17,8 +18,7 @@ fun NavGraphBuilder.AuthNavGraph(navHostController: NavHostController) {
         startDestination = AuthScreen.Login.route
     ){
         composable (route = AuthScreen.Login.route){LoginScreen(navHostController)}
-        composable (route = AuthScreen.Register.route){ RegisterScreen(navHostController)
-        }
-        ClientNavGraph(navHostController)
+        composable (route = AuthScreen.Register.route){ RegisterScreen(navHostController)}
+        composable (route = Graph.CLIENT){ ClientHomeScreen() }
     }
 }
