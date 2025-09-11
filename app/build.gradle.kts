@@ -68,6 +68,9 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose) //navigation-compose
     kapt(libs.hilt.android.compiler) //
 
+    //ASYNC IMAGE
+    implementation(libs.coil.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
