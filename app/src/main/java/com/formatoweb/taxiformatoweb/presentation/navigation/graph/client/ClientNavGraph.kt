@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.formatoweb.taxiformatoweb.presentation.navigation.Graph
+import com.formatoweb.taxiformatoweb.presentation.navigation.graph.profile.ProfileNavGraph
 import com.formatoweb.taxiformatoweb.presentation.navigation.screen.client.ClientScreen
 import com.formatoweb.taxiformatoweb.presentation.screens.client.mapSearcher.ClientMapSearcherScreen
 import com.formatoweb.taxiformatoweb.presentation.screens.profile.info.ProfileInfoScreen
@@ -16,8 +17,8 @@ fun ClientNavGraph(navHostController: NavHostController) {
         route = Graph.CLIENT,
         startDestination = ClientScreen.MapSearcher.route
     ){
-        composable (route = ClientScreen.ProfileInfo.route){ ProfileInfoScreen(navHostController = navHostController)}
         composable (route = ClientScreen.MapSearcher.route){ ClientMapSearcherScreen(navHostController = navHostController) }
+        ProfileNavGraph(navHostController)
     }
 }
 

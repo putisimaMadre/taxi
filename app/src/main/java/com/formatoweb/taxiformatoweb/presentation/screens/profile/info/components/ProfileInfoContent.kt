@@ -2,6 +2,7 @@ package com.formatoweb.taxiformatoweb.presentation.screens.profile.info.componen
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import coil3.compose.AsyncImage
 import com.formatoweb.taxiformatoweb.MainActivity
 import com.formatoweb.taxiformatoweb.R
 import com.formatoweb.taxiformatoweb.presentation.components.DefaultIconButton
+import com.formatoweb.taxiformatoweb.presentation.navigation.screen.profile.ProfileScreen
 import com.formatoweb.taxiformatoweb.presentation.screens.auth.register.RegisterScreen
 import com.formatoweb.taxiformatoweb.presentation.screens.profile.info.ProfileInfoViewModel
 import com.formatoweb.taxiformatoweb.ui.theme.TaxiFormatowebTheme
@@ -53,7 +55,8 @@ fun ProfileInfoContent(navHostController: NavHostController,
                        paddingValues: PaddingValues,
                        vm: ProfileInfoViewModel = hiltViewModel()
 ) {
-    val activity = LocalContext.current as? Activity
+    //val activity = LocalContext.current as? Activity 
+    val activity = LocalActivity.current
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -81,7 +84,14 @@ fun ProfileInfoContent(navHostController: NavHostController,
                 modifier = Modifier,
                 title = "EDITAR PERFIL",
                 imageVector = Icons.Default.Edit,
-                onClick = {}
+                onClick = {
+                    if (vm.user != null){
+                        navHostController.navigate(
+                            route = ProfileScreen.ProfileUpdate.passUser(vm.user!!.toJson())
+                        )
+                    }
+
+                }
             )
             DefaultIconButton(
                 modifier = Modifier,

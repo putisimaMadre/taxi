@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.formatoweb.taxiformatoweb.presentation.navigation.Graph
 import com.formatoweb.taxiformatoweb.presentation.navigation.graph.client.ClientNavGraph
 import com.formatoweb.taxiformatoweb.presentation.navigation.screen.client.ClientScreen
 import com.formatoweb.taxiformatoweb.presentation.util.NavigationItem
@@ -49,7 +50,7 @@ fun ClientHomeScreen(navHostController: NavHostController = rememberNavControlle
         ),
         NavigationItem(
             title = "Perfil de usuario",
-            route = ClientScreen.ProfileInfo.route,
+            route = Graph.PROFILE,
             selectedIcon = Icons.Filled.Person,
             unSelectedIcon = Icons.Outlined.Person
         ),
